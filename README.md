@@ -9,6 +9,16 @@ pesquisa aplicada sobre Rust + protótipo funcional que demonstre os seus princi
 
 ## Equipe
 
+| Nome | Usuário |
+|---|---|
+| Abner Levi | abnerlevi |
+| Alan Mendes Vieira | alan-mendes-ufca |
+| Cicero Jesus | cicero-jesus |
+| Diogo Gomes | (convite pendente — fgrdiogo) |
+| Maria Antônia | mariastrajano |
+| Matheus Nogueira | mathsNS |
+| Antonio Neto | netoo-444 |
+
 - - - 
 
 ## Como executar
