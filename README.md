@@ -1,4 +1,4 @@
-# Introducao-ao-Rust
+# Introducao ao Rust — Segurança de Memória sem Garbage Collector
 pesquisa aplicada sobre Rust + protótipo funcional que demonstre os seus principais conceitos na prática
 
 - - - 
