@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ecossistema Rust - Exemplos</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17212b;
+      --muted: #5c6976;
+      --paper: #f6f8fa;
+      --surface: #ffffff;
+      --line: #d9e0e7;
+      --rust: #c84a24;
+      --rust-dark: #9f361b;
+      --terminal: #101820;
+      --terminal-text: #e7edf3;
+      --green: #65d88a;
+      --blue: #1675bd;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-content, main {
+      width: min(1120px, calc(100% - 32px));
+      margin: auto;
+    }
+    .header-content {
+      min-height: 104px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .title-group { display: flex; align-items: center; gap: 14px; }
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--rust);
+      font-size: 25px;
+      font-weight: 800;
+    }
+    h1 { margin: 0; font-size: 25px; font-weight: 700; letter-spacing: 0; }
+    .subtitle { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+    .status {
+      padding: 7px 10px;
+      border: 1px solid #bde3cc;
+      border-radius: 6px;
+      background: #f0fbf4;
+      color: #247441;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    main { padding: 30px 0 48px; }
+    .intro { max-width: 760px; margin: 0 0 24px; color: var(--muted); line-height: 1.55; }
+    .layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 20px; }
+    .examples, .workspace { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+    .examples { padding: 10px; align-self: start; }
+    .example {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .example:hover { background: #f3f5f7; }
+    .example.active { background: #fff0eb; outline: 1px solid #f4c5b5; }
+    .example-title { display: block; font-weight: 700; font-size: 15px; }
+    .example-desc { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .workspace { overflow: hidden; }
+    .workspace-header {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      gap: 16px;
+    }
+    .workspace-header strong { display: block; font-size: 16px; }
+    .command { margin-top: 3px; color: var(--muted); font-family: Consolas, monospace; font-size: 12px; }
+    .run {
+      flex: none;
+      padding: 9px 13px;
+      border: 0;
+      border-radius: 6px;
+      background: var(--rust);
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .run:hover { background: var(--rust-dark); }
+    .code-label { padding: 11px 16px; color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    pre { margin: 0; overflow: auto; }
+    #code { padding: 0 16px 16px; color: #263441; font: 13px/1.55 Consolas, "Courier New", monospace; white-space: pre; }
+    .terminal-wrap { border-top: 1px solid var(--line); }
+    .terminal-label { padding: 11px 16px; background: #edf1f4; color: #455361; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    #terminal {
+      min-height: 190px;
+      padding: 16px;
+      background: var(--terminal);
+      color: var(--terminal-text);
+      font: 13px/1.55 Consolas, "Courier New", monospace;
+      white-space: pre-wrap;
+    }
+    .prompt { color: var(--green); }
+    .note { margin: 20px 0 0; color: var(--muted); font-size: 13px; }
+    code { font-family: Consolas, "Courier New", monospace; }
+    @media (max-width: 760px) {
+      .header-content { align-items: flex-start; padding: 20px 0; flex-direction: column; }
+      .layout { grid-template-columns: 1fr; }
+      .workspace-header { align-items: flex-start; flex-direction: column; }
+      .run { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="title-group">
+        <div class="mark">R</div>
+        <div>
+          <h1>Ecossistema Rust</h1>
+          <p class="subtitle">Demonstração local dos exemplos do projeto</p>
+        </div>
+      </div>
+      <div class="status">Funciona sem Rust instalado</div>
+    </div>
+  </header>
+
+  <main>
+    <p class="intro">Selecione um exemplo, observe seu código e clique em Executar para exibir a saída que ele produziria com o Cargo.</p>
+    <section class="layout" aria-label="Simulador de exemplos Rust">
+      <nav class="examples" aria-label="Exemplos">
+        <button class="example active" data-example="json">
+          <span class="example-title">JSON com serde</span>
+          <span class="example-desc">Serializa uma struct Rust em JSON.</span>
+        </button>
+        <button class="example" data-example="cli">
+          <span class="example-title">CLI com clap</span>
+          <span class="example-desc">Lê argumentos enviados pelo terminal.</span>
+        </button>
+        <button class="example" data-example="threads">
+          <span class="example-title">Concorrência segura</span>
+          <span class="example-desc">Compartilha um contador entre threads.</span>
+        </button>
+      </nav>
+
+      <section class="workspace">
+        <div class="workspace-header">
+          <div><strong id="example-name">JSON com serde</strong><div class="command" id="command">cargo run</div></div>
+          <button class="run" id="run" type="button">Executar</button>
+        </div>
+        <div class="code-label">src/main.rs</div>
+        <pre id="code"></pre>
+        <div class="terminal-wrap">
+          <div class="terminal-label">Terminal simulado</div>
+          <pre id="terminal"><span class="prompt">Pronto para executar.</span></pre>
+        </div>
+      </section>
+    </section>
+    <p class="note">Este arquivo é uma demonstração visual offline. Os projetos Cargo originais continuam nas pastas ao lado.</p>
+  </main>
+
+  <script>
+    const examples = {
+      json: {
+        name: "JSON com serde",
+        command: "cargo run",
+        code: `use serde::Serialize;
+
+#[derive(Serialize)]
+struct Aluno {
+    nome: String,
+    semestre: u8,
+}
+
+fn main() {
+    let aluno = Aluno {
+        nome: String::from("Neto"),
+        semestre: 4,
+    };
+
+    let json = serde_json::to_string_pretty(&aluno)
+        .expect("falha ao gerar JSON");
+    println!("{json}");
+}`,
+        output: `cargo run
+   Compiling json_serde v0.1.0
+    Finished dev profile
+     Running target\\debug\\json_serde.exe
+
+{
+  "nome": "Neto",
+  "semestre": 4
+}`
+      },
+      cli: {
+        name: "CLI com clap",
+        command: "cargo run -- --nome Neto --semestre 4",
+        code: `use clap::Parser;
+
+#[derive(Parser)]
+struct Argumentos {
+    #[arg(long)]
+    nome: String,
+
+    #[arg(long)]
+    semestre: u8,
+}
+
+fn main() {
+    let argumentos = Argumentos::parse();
+    println!(
+        "Aluno: {} | Semestre: {}",
+        argumentos.nome, argumentos.semestre
+    );
+}`,
+        output: `cargo run -- --nome Neto --semestre 4
+   Compiling cli_clap v0.1.0
+    Finished dev profile
+     Running target\\debug\\cli_clap.exe --nome Neto --semestre 4
+
+Aluno: Neto | Semestre: 4`
+      },
+      threads: {
+        name: "Concorrência segura",
+        command: "cargo run",
+        code: `use std::sync::{Arc, Mutex};
+use std::thread;
+
+fn main() {
+    let contador = Arc::new(Mutex::new(0));
+    let mut tarefas = Vec::new();
+
+    for _ in 0..5 {
+        let contador = Arc::clone(&contador);
+        tarefas.push(thread::spawn(move || {
+            *contador.lock().expect("mutex bloqueado") += 1;
+        }));
+    }
+
+    for tarefa in tarefas {
+        tarefa.join().expect("thread finalizada com erro");
+    }
+
+    println!("Valor final: {}", *contador.lock().unwrap());
+}`,
+        output: `cargo run
+   Compiling concorrencia v0.1.0
+    Finished dev profile
+     Running target\\debug\\concorrencia.exe
+
+Valor final: 5`
+      }
+    };
+
+    let selected = "json";
+    const code = document.getElementById("code");
+    const terminal = document.getElementById("terminal");
+    const name = document.getElementById("example-name");
+    const command = document.getElementById("command");
+
+    function showExample(key) {
+      selected = key;
+      const example = examples[key];
+      name.textContent = example.name;
+      command.textContent = example.command;
+      code.textContent = example.code;
+      terminal.innerHTML = '<span class="prompt">Pronto para executar.</span>';
+      document.querySelectorAll(".example").forEach(button => {
+        button.classList.toggle("active", button.dataset.example === key);
+      });
+    }
+
+    document.querySelectorAll(".example").forEach(button => {
+      button.addEventListener("click", () => showExample(button.dataset.example));
+    });
+
+    document.getElementById("run").addEventListener("click", () => {
+      terminal.textContent = "";
+      const output = examples[selected].output;
+      let position = 0;
+      const timer = setInterval(() => {
+        terminal.textContent += output[position++] || "";
+        if (position >= output.length) clearInterval(timer);
+      }, 7);
+    });
+
+    showExample(selected);
+  </script>
+</body>
+</html>
