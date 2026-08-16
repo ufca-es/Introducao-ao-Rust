@@ -132,6 +132,15 @@ valor, e uma segunda chamada é rejeitada como uso de valor movido.
 
 - [Código, explicação e instruções de execução](./double-free/README.md)
 
+### Data race
+
+O terceiro exemplo compartilha um contador entre duas threads. C permite o
+acesso conflitante sem sincronização, o que produz comportamento indefinido. Em
+safe Rust, o compartilhamento mutável é rejeitado, e a versão correta combina
+`Arc` para propriedade compartilhada com `Mutex` para exclusão mútua.
+
+- [Código, explicação e instruções de execução](./data-race/README.md)
+
 ## Referências iniciais
 
 - [The Rust Programming Language: Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
