@@ -100,6 +100,108 @@ construídos com contagem de referências podem manter valores vivos
 indefinidamente. Vazamentos são considerados seguros do ponto de vista de
 acesso à memória, embora continuem sendo um problema de consumo de recursos.
 
+## Vantagens e limitações
+
+### Pontos fortes do C
+
+C continua relevante em programação de sistemas por características que não
+devem ser ignoradas na comparação:
+
+- possui uma especificação relativamente pequena e implementações disponíveis
+  para uma grande variedade de processadores e sistemas operacionais;
+- tem uma ABI amplamente utilizada como fronteira de interoperabilidade entre
+  linguagens e bibliotecas;
+- permite controle direto sobre representação de dados, memória e dispositivos;
+- conta com décadas de bibliotecas, ferramentas, documentação e código legado;
+- pode ser a única opção viável em plataformas antigas ou muito restritas.
+
+Uma linguagem menor não significa que seja simples produzir software seguro em
+C. O programador precisa controlar manualmente tempos de vida, aliases,
+liberação de recursos e sincronização. Revisões, testes e analisadores ajudam,
+mas não transformam essas propriedades em garantias gerais da linguagem.
+
+### Pontos fortes do Rust
+
+Rust torna parte dessas obrigações verificável pelo compilador:
+
+- ownership representa quem deve liberar cada recurso;
+- borrowing permite acesso temporário sem transferir a posse;
+- lifetimes impedem que referências seguras sobrevivam aos valores referidos;
+- tipos como `Option` e `Result` representam ausência e falha explicitamente;
+- `Send` e `Sync` restringem como tipos atravessam fronteiras entre threads;
+- Cargo padroniza compilação, testes, documentação e dependências.
+
+Essas garantias não implicam que todo programa Rust esteja correto. O sistema de
+tipos não impede erros de lógica, deadlocks, consumo excessivo de memória ou
+algoritmos incorretos. Código `unsafe`, interfaces externas e implementações de
+baixo nível também exigem invariantes que o compilador não consegue verificar
+sozinho.
+
+### Custos da abordagem de Rust
+
+O rigor adicional possui custos de adoção:
+
+- ownership, borrowing e lifetimes aumentam a curva de aprendizagem;
+- alguns padrões de estruturas de dados exigem reformulação ou abstrações mais
+  complexas;
+- mensagens do borrow checker podem exigir conhecimento do modelo de posse;
+- compilações e tipos genéricos podem aumentar o tempo de build e o tamanho dos
+  artefatos;
+- bibliotecas ou plataformas específicas podem oferecer suporte mais maduro em
+  C.
+
+O custo ocorre principalmente durante projeto e compilação. As verificações de
+empréstimos não exigem um Garbage Collector nem uma tabela de referências
+consultada a cada acesso durante a execução.
+
+## Cenários de uso
+
+| Cenário | Opção que tende a favorecer | Motivo principal |
+|---|---|---|
+| Novo componente de sistema exposto a entradas não confiáveis | Rust | Redução de vulnerabilidades causadas por uso inválido de memória |
+| Firmware para plataforma sem suporte maduro a Rust | C | Toolchain, bibliotecas e documentação já disponíveis |
+| Integração com biblioteca ou sistema legado em C | C ou adoção gradual de Rust | Reescrita completa pode ter custo e risco elevados |
+| Serviço concorrente com requisitos de segurança de memória | Rust | Ownership e traits de concorrência eliminam várias condições inseguras |
+| Código extremamente dependente de uma ABI estável e difundida | C | ABI consolidada entre compiladores, sistemas e linguagens |
+| Biblioteca nova chamada por aplicações C | Rust com interface C | Implementação segura internamente e compatibilidade na fronteira |
+| Prototipação de baixo nível por equipe experiente em C | Depende do contexto | Prazo, risco, plataforma e experiência podem pesar mais que a linguagem |
+
+A escolha não deve ser apresentada como uma disputa em que uma linguagem vence
+em todos os critérios. Plataforma, equipe, bibliotecas existentes, requisitos
+de certificação, interoperabilidade e custo de migração influenciam a decisão.
+
+## Interoperabilidade e adoção gradual
+
+Rust pode declarar funções e dados fornecidos por bibliotecas C por meio de FFI
+(*Foreign Function Interface*). No sentido contrário, uma biblioteca Rust pode
+expor funções com uma interface binária compatível com C. Isso permite substituir
+ou acrescentar componentes gradualmente, sem reescrever todo um sistema.
+
+A fronteira FFI exige cuidado. O compilador não conhece automaticamente os
+contratos de ponteiros recebidos do C, como validade, alinhamento, tamanho e
+tempo de vida. Por isso, chamadas externas normalmente envolvem `unsafe`. Uma
+prática recomendada é manter essa camada pequena e convertê-la imediatamente em
+tipos e operações seguros para o restante do programa.
+
+FFI não é um exemplo obrigatório desta seção. Ele é apresentado como cenário de
+uso porque demonstra que adotar Rust não exige abandonar imediatamente uma base
+existente em C.
+
+## Síntese da comparação
+
+Rust e C podem produzir código nativo sem Garbage Collector e atender domínios
+semelhantes. A diferença central está em onde parte da responsabilidade é
+verificada. C fornece mecanismos diretos e permite que o programador estabeleça
+os contratos necessários. Rust representa muitos desses contratos no sistema
+de tipos e rejeita programas que não consegue provar seguros dentro de seu
+subconjunto seguro.
+
+Rust é especialmente atraente quando falhas de memória e concorrência têm alto
+impacto. C permanece importante quando compatibilidade, disponibilidade de
+toolchain, código legado ou restrições de plataforma são determinantes. Uma
+análise responsável considera os requisitos concretos do projeto em vez de
+afirmar que uma linguagem é universalmente superior.
+
 ## Exemplos planejados
 
 Os exemplos práticos serão adicionados em blocos independentes:
