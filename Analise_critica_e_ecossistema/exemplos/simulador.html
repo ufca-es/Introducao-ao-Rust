@@ -109,9 +109,43 @@
       font-weight: 700;
     }
     .run:hover { background: var(--rust-dark); }
+    .stepper {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fffaf8;
+    }
+    .next-step {
+      min-width: 138px;
+      padding: 9px 12px;
+      border: 1px solid var(--rust);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--rust-dark);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .next-step:hover { background: #fff0eb; }
+    .step-content { min-height: 48px; }
+    .step-count { color: var(--rust-dark); font-size: 12px; font-weight: 700; }
+    .step-title { margin: 3px 0; font-size: 14px; font-weight: 700; }
+    .step-text { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
     .code-label { padding: 11px 16px; color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; }
     pre { margin: 0; overflow: auto; }
     #code { padding: 0 16px 16px; color: #263441; font: 13px/1.55 Consolas, "Courier New", monospace; white-space: pre; }
+    .code-line { display: block; min-height: 20px; }
+    .code-line.highlighted {
+      margin: 0 -8px;
+      padding: 0 8px;
+      border-left: 3px solid var(--rust);
+      background: #fff0eb;
+      color: #722812;
+      font-weight: 700;
+    }
     .terminal-wrap { border-top: 1px solid var(--line); }
     .terminal-label { padding: 11px 16px; background: #edf1f4; color: #455361; font-size: 12px; font-weight: 700; text-transform: uppercase; }
     #terminal {
@@ -130,6 +164,8 @@
       .layout { grid-template-columns: 1fr; }
       .workspace-header { align-items: flex-start; flex-direction: column; }
       .run { width: 100%; }
+      .stepper { grid-template-columns: 1fr; }
+      .next-step { width: 100%; }
     }
   </style>
 </head>
@@ -169,6 +205,14 @@
         <div class="workspace-header">
           <div><strong id="example-name">JSON com serde</strong><div class="command" id="command">cargo run</div></div>
           <button class="run" id="run" type="button">Executar</button>
+        </div>
+        <div class="stepper" aria-live="polite">
+          <button class="next-step" id="next-step" type="button">Iniciar explicação</button>
+          <div class="step-content">
+            <div class="step-count" id="step-count">Passo a passo</div>
+            <div class="step-title" id="step-title">Entenda o exemplo</div>
+            <p class="step-text" id="step-text">Clique em “Iniciar explicação” para acompanhar o código até a saída final.</p>
+          </div>
         </div>
         <div class="code-label">src/main.rs</div>
         <pre id="code"></pre>
@@ -212,7 +256,34 @@ fn main() {
 {
   "nome": "Neto",
   "semestre": 4
-}`
+}`,
+        steps: [
+          {
+            title: "Importação da crate",
+            text: "use serde::Serialize traz para o programa o recurso que permite serializar dados. A crate serde foi declarada no Cargo.toml.",
+            lines: [1]
+          },
+          {
+            title: "Definição dos dados",
+            text: "A struct Aluno define dois campos: nome, que recebe um texto, e semestre, que recebe um número inteiro.",
+            lines: [3, 4, 5, 6]
+          },
+          {
+            title: "Geração automática",
+            text: "#[derive(Serialize)] pede ao Rust que gere a lógica necessária para converter um Aluno em um formato serializável.",
+            lines: [3]
+          },
+          {
+            title: "Criação do aluno",
+            text: "A variável aluno recebe os valores Neto e 4. Esses valores serão usados na saída final.",
+            lines: [9, 10, 11, 12]
+          },
+          {
+            title: "Conversão para JSON",
+            text: "serde_json::to_string_pretty converte a struct para JSON formatado. Por isso a saída tem as chaves nome e semestre, com os valores Neto e 4.",
+            lines: [14, 15, 16]
+          }
+        ]
       },
       cli: {
         name: "CLI com clap",
@@ -240,7 +311,29 @@ fn main() {
     Finished dev profile
      Running target\\debug\\cli_clap.exe --nome Neto --semestre 4
 
-Aluno: Neto | Semestre: 4`
+Aluno: Neto | Semestre: 4`,
+        steps: [
+          {
+            title: "Importação da crate",
+            text: "use clap::Parser traz o recurso da crate clap que interpreta argumentos digitados no terminal.",
+            lines: [1]
+          },
+          {
+            title: "Estrutura dos argumentos",
+            text: "A struct Argumentos descreve os dados que o programa espera receber: nome como texto e semestre como número.",
+            lines: [3, 4, 5, 6, 8, 9, 10]
+          },
+          {
+            title: "Opções longas",
+            text: "#[arg(long)] transforma cada campo em uma opção de terminal: --nome e --semestre.",
+            lines: [5, 8]
+          },
+          {
+            title: "Leitura e saída",
+            text: "Argumentos::parse lê --nome Neto e --semestre 4. Depois, println! substitui as chaves {} pelos valores recebidos e mostra a saída final.",
+            lines: [14, 15, 16, 17, 18, 19]
+          }
+        ]
       },
       threads: {
         name: "Concorrência segura",
@@ -270,23 +363,93 @@ fn main() {
     Finished dev profile
      Running target\\debug\\concorrencia.exe
 
-Valor final: 5`
+Valor final: 5`,
+        steps: [
+          {
+            title: "Contador protegido",
+            text: "O contador começa em 0. Mutex protege o valor, garantindo que apenas uma thread possa alterá-lo por vez.",
+            lines: [5]
+          },
+          {
+            title: "Compartilhamento seguro",
+            text: "Arc permite que várias threads usem o mesmo Mutex e, consequentemente, o mesmo contador.",
+            lines: [1, 5, 9]
+          },
+          {
+            title: "Cinco threads",
+            text: "O laço se repete cinco vezes. Em cada repetição, uma nova thread é criada com thread::spawn.",
+            lines: [8, 9, 10]
+          },
+          {
+            title: "Incremento controlado",
+            text: "Dentro de cada thread, lock obtém acesso temporário ao contador. Então *valor += 1 soma um ao valor sem conflito com as outras threads.",
+            lines: [10, 11]
+          },
+          {
+            title: "Resultado final",
+            text: "join espera todas as cinco threads terminarem. Como cada uma soma 1 ao contador inicial 0, o resultado final correto é 5.",
+            lines: [14, 15, 16, 18]
+          }
+        ]
       }
     };
 
     let selected = "json";
+    let currentStep = 0;
+    let outputTimer;
     const code = document.getElementById("code");
     const terminal = document.getElementById("terminal");
     const name = document.getElementById("example-name");
     const command = document.getElementById("command");
+    const nextStep = document.getElementById("next-step");
+    const stepCount = document.getElementById("step-count");
+    const stepTitle = document.getElementById("step-title");
+    const stepText = document.getElementById("step-text");
+
+    function resetSteps() {
+      currentStep = 0;
+      stepCount.textContent = "Passo a passo";
+      stepTitle.textContent = "Entenda o exemplo";
+      stepText.textContent = "Clique em “Iniciar explicação” para acompanhar o código até a saída final.";
+      nextStep.textContent = "Iniciar explicação";
+      renderCode([]);
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function renderCode(highlightedLines) {
+      const highlighted = new Set(highlightedLines);
+      code.innerHTML = examples[selected].code.split("\n").map((line, index) => {
+        const className = highlighted.has(index + 1) ? "code-line highlighted" : "code-line";
+        return `<span class="${className}">${escapeHtml(line) || " "}</span>`;
+      }).join("");
+    }
+
+    function showOutput(animated) {
+      clearInterval(outputTimer);
+      const output = examples[selected].output;
+      if (!animated) {
+        terminal.textContent = output;
+        return;
+      }
+      terminal.textContent = "";
+      let position = 0;
+      outputTimer = setInterval(() => {
+        terminal.textContent += output[position++] || "";
+        if (position >= output.length) clearInterval(outputTimer);
+      }, 7);
+    }
 
     function showExample(key) {
       selected = key;
       const example = examples[key];
       name.textContent = example.name;
       command.textContent = example.command;
-      code.textContent = example.code;
+      renderCode([]);
       terminal.innerHTML = '<span class="prompt">Pronto para executar.</span>';
+      resetSteps();
       document.querySelectorAll(".example").forEach(button => {
         button.classList.toggle("active", button.dataset.example === key);
       });
@@ -297,13 +460,25 @@ Valor final: 5`
     });
 
     document.getElementById("run").addEventListener("click", () => {
-      terminal.textContent = "";
-      const output = examples[selected].output;
-      let position = 0;
-      const timer = setInterval(() => {
-        terminal.textContent += output[position++] || "";
-        if (position >= output.length) clearInterval(timer);
-      }, 7);
+      showOutput(true);
+    });
+
+    nextStep.addEventListener("click", () => {
+      const steps = examples[selected].steps;
+      if (currentStep === steps.length) {
+        resetSteps();
+        return;
+      }
+
+      const step = steps[currentStep];
+      stepCount.textContent = `Passo ${currentStep + 1} de ${steps.length}`;
+      stepTitle.textContent = step.title;
+      stepText.textContent = step.text;
+      renderCode(step.lines);
+      currentStep += 1;
+      nextStep.textContent = currentStep === steps.length ? "Recomeçar explicação" : "Próximo passo";
+
+      if (currentStep === steps.length) showOutput(false);
     });
 
     showExample(selected);
