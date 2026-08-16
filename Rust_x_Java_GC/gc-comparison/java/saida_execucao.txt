@@ -1,0 +1,8 @@
+Requisicao 0 - memoria usada: 4 MB - cache.size()=1
+Requisicao 20 - memoria usada: 44 MB - cache.size()=21
+Requisicao 40 - memoria usada: 84 MB - cache.size()=41
+Requisicao 60 - memoria usada: 122 MB - cache.size()=61
+Requisicao 80 - memoria usada: 162 MB - cache.size()=81
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at LeakyCache.handleRequest(LeakyCache.java:31)
+	at LeakyCache.main(LeakyCache.java:38)

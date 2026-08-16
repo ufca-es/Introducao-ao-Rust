@@ -1,0 +1,9 @@
+error[E0515]: cannot return reference to local variable `s`
+  --> dangling_ref.rs:11:5
+   |
+11 |     &s
+   |     ^^ returns a reference to data owned by the current function
+
+error: aborting due to previous error
+
+For more information about this error, try `rustc --explain E0515`.
