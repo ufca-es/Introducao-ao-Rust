@@ -1,7 +1,7 @@
 # Rust x C: segurança de memória na prática
 
 Material de apoio para o subtema **"Comparação prática entre Rust e C"** do
-trabalho *Introdução ao Rust — Segurança de Memória sem Garbage Collector*, da
+trabalho *Introdução ao Rust - Segurança de Memória sem Garbage Collector*, da
 disciplina de Paradigmas de Programação da UFCA.
 
 Esta seção compara as duas linguagens com foco em programação de sistemas,
@@ -112,10 +112,20 @@ Cada bloco terá uma versão em C, uma tentativa equivalente em *safe Rust*, a
 saída observada e uma versão corrigida quando necessário. Programas que falham
 de propósito serão identificados claramente.
 
+## Exemplos disponíveis
+
+### Referência pendurada e use-after-free
+
+O primeiro exemplo mostra uma função que tenta devolver uma referência para um
+valor local. Em C, o compilador pode emitir um aviso, mas ainda gerar um
+executável cujo acesso ao ponteiro possui comportamento indefinido. Em safe
+Rust, o borrow checker rejeita a tentativa antes da execução.
+
+- [Código, explicação e instruções de execução](./dangling-reference/README.md)
+
 ## Referências iniciais
 
-- [The Rust Programming Language — Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
-- [The Rust Programming Language — Fearless Concurrency](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
-- [The Rustonomicon — Meet Safe and Unsafe](https://doc.rust-lang.org/nomicon/meet-safe-and-unsafe.html)
-- [Rust Reference — Behavior considered undefined](https://doc.rust-lang.org/reference/behavior-considered-undefined.html)
-
+- [The Rust Programming Language: Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
+- [The Rust Programming Language: Fearless Concurrency](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
+- [The Rustonomicon: Meet Safe and Unsafe](https://doc.rust-lang.org/nomicon/meet-safe-and-unsafe.html)
+- [Rust Reference: Behavior considered undefined](https://doc.rust-lang.org/reference/behavior-considered-undefined.html)
