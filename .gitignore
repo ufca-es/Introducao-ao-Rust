@@ -1,0 +1,16 @@
+# Rust
+target/
+*.pdb
+*.exe
+
+# Java
+*.class
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Logs gerados localmente ao rodar os exemplos
+gc.log
+gateway*.log
