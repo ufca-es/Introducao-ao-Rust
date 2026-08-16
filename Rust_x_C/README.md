@@ -123,6 +123,15 @@ Rust, o borrow checker rejeita a tentativa antes da execução.
 
 - [Código, explicação e instruções de execução](./dangling-reference/README.md)
 
+### Double free
+
+O segundo exemplo tenta liberar a mesma alocação duas vezes. Em C, isso produz
+comportamento indefinido e pode ser identificado por avisos ou ferramentas
+dinâmicas em alguns casos. Em safe Rust, a primeira chamada a `drop` consome o
+valor, e uma segunda chamada é rejeitada como uso de valor movido.
+
+- [Código, explicação e instruções de execução](./double-free/README.md)
+
 ## Referências iniciais
 
 - [The Rust Programming Language: Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
