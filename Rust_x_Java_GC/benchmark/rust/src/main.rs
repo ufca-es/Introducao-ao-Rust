@@ -5,6 +5,9 @@ use std::time::Instant;
 /// (ex: um nó de árvore, um registro de log, um evento de fila).
 struct Node {
     value: i64,
+    // Só existe para dar ao Node um tamanho realista de alocação; não é
+    // lido no benchmark, daí o allow explícito em vez de um warning solto.
+    #[allow(dead_code)]
     payload: Vec<i64>,
 }
 

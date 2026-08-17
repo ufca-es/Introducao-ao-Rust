@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Benchmark {
 
@@ -26,7 +27,10 @@ public class Benchmark {
         int n = 2_000_000;
         int rounds = 5;
 
-        System.out.printf("Java - alocando %d nos em %d rodadas%n%n", n, rounds);
+        // Locale.US fixa o separador decimal em ponto, independente do
+        // locale do Windows da máquina que roda a demo (senão %f imprime
+        // com vírgula em máquinas configuradas em pt-BR).
+        System.out.printf(Locale.US, "Java - alocando %d nos em %d rodadas%n%n", n, rounds);
 
         for (int round = 1; round <= rounds; round++) {
             long allocStart = System.nanoTime();
@@ -47,6 +51,7 @@ public class Benchmark {
             nodes = null;
 
             System.out.printf(
+                Locale.US,
                 "Rodada %d: alocacao=%8.2fms  soma=%6.2fms (sum=%d)  total=%8.2fms%n",
                 round,
                 allocTime / 1e6, sumTime / 1e6, sum,
