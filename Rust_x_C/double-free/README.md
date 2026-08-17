@@ -56,8 +56,10 @@ programa:
 rustc rust/double_free.rs
 ```
 
-O diagnóstico esperado é `E0382`, uso de valor movido. Em safe Rust, não é
-possível chamar o destrutor do mesmo `Box` uma segunda vez dessa forma.
+O diagnóstico verificado com Rust 1.97.1 é `E0382`, uso de valor movido. Em safe
+Rust, não é possível chamar o destrutor do mesmo `Box` uma segunda vez dessa
+forma. A [saída registrada](./rust/erro_compilacao.txt) foi produzida pelo código
+deste exemplo.
 
 ## Versão corrigida em Rust
 
@@ -70,7 +72,7 @@ rustc rust/fixed.rs -o fixed_rust
 ./fixed_rust
 ```
 
-Saída esperada:
+Saída verificada:
 
 ```text
 Valor: 42

@@ -54,9 +54,11 @@ exclusivo ao mesmo valor ao mesmo tempo:
 rustc rust/data_race.rs
 ```
 
-O compilador rejeita o programa porque as closures exigem acessos mutáveis
-simultâneos. Diferentemente de um teste dinâmico, essa verificação não depende
-de uma disputa ocorrer durante uma execução específica.
+O compilador Rust 1.97.1 rejeita o programa com `E0499` porque as closures exigem
+acessos mutáveis simultâneos. Diferentemente de um teste dinâmico, essa
+verificação não depende de uma disputa ocorrer durante uma execução específica.
+A [saída registrada](./rust/erro_compilacao.txt) foi produzida pelo código deste
+exemplo.
 
 ## Versão corrigida em Rust
 
@@ -69,7 +71,7 @@ rustc rust/fixed.rs -o fixed_rust
 ./fixed_rust
 ```
 
-Saída esperada:
+Saída verificada:
 
 ```text
 Contador: 2000000

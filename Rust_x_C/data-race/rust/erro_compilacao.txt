@@ -1,0 +1,18 @@
+Compilador: rustc 1.97.1 (8bab26f4f 2026-07-14)
+
+error[E0499]: cannot borrow `contador` as mutable more than once at a time
+  --> data_race.rs:16:22
+   |
+10 |         escopo.spawn(|| {
+   |                      -- first mutable borrow occurs here
+11 |             for _ in 0..1_000_000 {
+12 |                 contador += 1;
+   |                 -------- first borrow occurs due to use of `contador` in closure
+...
+16 |         escopo.spawn(|| {
+   |                      ^^ second mutable borrow occurs here
+17 |             for _ in 0..1_000_000 {
+18 |                 contador += 1;
+   |                 -------- second borrow occurs due to use of `contador` in closure
+
+error: aborting due to 1 previous error

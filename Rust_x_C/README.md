@@ -9,6 +9,12 @@ gerenciamento de memória e erros que o compilador do Rust consegue impedir em
 tempo de compilação. Os exemplos serão apresentados em pares equivalentes e
 terão instruções para compilação e execução.
 
+Os códigos foram verificados no Windows com GCC 15.2.0 e Rust 1.97.1, usando o
+toolchain `stable-x86_64-pc-windows-gnu`. As versões corretas foram compiladas e
+executadas. As versões Rust propositalmente inválidas tiveram seus diagnósticos
+registrados, enquanto os programas C com comportamento indefinido não foram
+executados.
+
 ## Objetivo da comparação
 
 C oferece controle direto sobre memória e hardware, tem ampla portabilidade e

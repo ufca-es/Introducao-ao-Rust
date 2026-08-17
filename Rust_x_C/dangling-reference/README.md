@@ -54,8 +54,10 @@ que `valor` será destruído ao final da função e rejeita o programa:
 rustc rust/dangling_reference.rs
 ```
 
-O diagnóstico esperado é o erro `E0515`, que informa que a função está
-devolvendo uma referência para dados pertencentes à própria função.
+O diagnóstico verificado com Rust 1.97.1 é o erro `E0515`, que informa que a
+função está devolvendo uma referência para dados pertencentes à própria função.
+A [saída registrada](./rust/erro_compilacao.txt) foi produzida pelo código deste
+exemplo.
 
 ## Versão corrigida em Rust
 
@@ -69,7 +71,7 @@ rustc rust/fixed.rs -o fixed_rust
 ./fixed_rust
 ```
 
-Saída esperada:
+Saída verificada:
 
 ```text
 Valor: 42
