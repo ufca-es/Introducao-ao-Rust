@@ -1,17 +1,41 @@
-/* Comparação com "Ways Variables and Data Interact: Move" — cap. 4.1 do
- * Rust Book:
+/* Comparação com "Ways Variables and Data Interact: Move" e "Stack-Only
+ * Data: Copy" — cap. 4.1 do Rust Book:
  * https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html
  *
  * Compilar e rodar: gcc -Wall -Wextra comparacao.c -o comparacao && ./comparacao
- * AVISO: este programa trava DE PROPÓSITO (double free) -- é o ponto
- * central da comparação: o que o Rust rejeita em tempo de COMPILAÇÃO, o C
- * deixa passar e só quebra em tempo de EXECUÇÃO.
+ * AVISO: a ÚLTIMA seção deste programa trava DE PROPÓSITO (double free) --
+ * é o ponto central da comparação: o que o Rust rejeita em tempo de
+ * COMPILAÇÃO, o C deixa passar e só quebra em tempo de EXECUÇÃO. Por isso
+ * ela fica por último: nada depois dela chega a executar.
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 int main(void) {
+    /* Seção 1 (equivalente ao exemplo 3 em Rust): um tipo escalar simples
+     * (int) se comporta em C exatamente como um tipo Copy em Rust -- a
+     * atribuição sempre copia o valor pela stack. Nenhuma diferença de
+     * comportamento entre as duas linguagens aqui. */
+    int x = 5;
+    int y = x;
+    printf("x = %d, y = %d\n", x, y);
+
+    /* Seção 2 (equivalente ao exemplo 2 em Rust): reatribuir um ponteiro
+     * NÃO libera automaticamente o valor antigo -- diferente do Rust, onde
+     * `drop` roda imediatamente na reatribuição. Esquecer o free() abaixo
+     * vazaria memória sem nenhum aviso do compilador. */
+    char *s3 = malloc(6);
+    strcpy(s3, "hello");
+    printf("s3 antes = %s\n", s3);
+    free(s3); /* preciso lembrar disso manualmente antes de reatribuir */
+    s3 = malloc(6);
+    strcpy(s3, "ahoy");
+    printf("s3 depois = %s\n", s3);
+    free(s3);
+
+    /* Seção 3 (equivalente ao exemplo 1 em Rust) -- a última, porque
+     * derruba o processo de propósito: */
     char *s1 = malloc(6);
     strcpy(s1, "hello");
 

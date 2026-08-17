@@ -18,6 +18,7 @@ void faz_copia(int algum_inteiro) {
 }
 
 int main(void) {
+    /* Seção 1 (equivalente ao exemplo 1 em Rust): */
     char *s = malloc(6);
     strcpy(s, "hello");
 
@@ -40,6 +41,7 @@ int main(void) {
      * Aqui em C, o bug só se manifestaria em tempo de execução, e só se
      * você tiver a sorte de perceber. */
 
+    /* Seção 2 (equivalente ao exemplo 2 em Rust): */
     int x = 5;
     faz_copia(x);
     printf("x ainda pode ser usado depois de faz_copia: %d\n", x); /* igual ao Rust */

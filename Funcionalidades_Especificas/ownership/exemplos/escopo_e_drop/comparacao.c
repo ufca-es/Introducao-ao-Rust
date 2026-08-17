@@ -8,18 +8,20 @@
 #include <string.h>
 
 int main(void) {
-    /* Escopo de bloco existe em C também, e funciona igual ao Rust: uma
-     * variável só é visível dentro das chaves onde foi declarada. */
+    /* Seção 1 (equivalente ao exemplo 1 em Rust): escopo de bloco existe
+     * em C também, e funciona igual ao Rust: uma variável só é visível
+     * dentro das chaves onde foi declarada. */
     {
         const char *s = "hello";
         printf("dentro do escopo: %s\n", s);
     } /* s deixa de ser visível aqui -- mas isso é só uma questão de nome,
        * resolvida em tempo de compilação. */
 
-    /* A diferença real está na memória alocada no heap. C não tem `drop`
-     * automático: se o programador esquecer o free(), a memória continua
-     * reservada (vazamento) mesmo depois que o ponteiro sai de escopo e
-     * se torna inacessível -- e o compilador não avisa nada sobre isso. */
+    /* Seção 2 (equivalente ao exemplo 2 em Rust): a diferença real está na
+     * memória alocada no heap. C não tem `drop` automático: se o
+     * programador esquecer o free(), a memória continua reservada
+     * (vazamento) mesmo depois que o ponteiro sai de escopo e se torna
+     * inacessível -- e o compilador não avisa nada sobre isso. */
     {
         char *heap_s = malloc(6);
         strcpy(heap_s, "hello");
@@ -29,6 +31,26 @@ int main(void) {
        * exatamente igual, só que vazando memória a cada execução deste
        * bloco -- em Rust isso não acontece silenciosamente: o `drop` é
        * parte do comportamento garantido do tipo `String`. */
+
+    /* Seção 3 (equivalente ao exemplo 3 em Rust): em Rust, o `drop` de
+     * múltiplos valores no mesmo escopo acontece automaticamente na ordem
+     * LIFO (o último declarado é o primeiro liberado). Em C não existe
+     * automatismo nenhum: cabe ao programador chamar free() para cada
+     * ponteiro, na ordem que quiser -- e esquecer qualquer um deles vaza
+     * memória sem nenhum aviso do compilador. */
+    {
+        char *a = malloc(2);
+        strcpy(a, "a");
+        char *b = malloc(2);
+        strcpy(b, "b");
+        char *c = malloc(2);
+        strcpy(c, "c");
+
+        printf("liberando na mesma ordem que o Rust faria automaticamente (c, b, a)\n");
+        free(c);
+        free(b);
+        free(a);
+    }
 
     printf("fim do main\n");
     return 0;

@@ -27,14 +27,17 @@ size_t calcula_tamanho(char *s, char **s_devolvida) {
 }
 
 int main(void) {
+    /* Seção 1 (equivalente ao exemplo 1 em Rust): */
     char *s1 = da_posse();
 
+    /* Seção 2 (equivalente ao exemplo 2 em Rust): */
     char *s2 = malloc(6);
     strcpy(s2, "hello");
     char *s3 = pega_e_devolve(s2); /* s3 aponta para o mesmo endereço de s2 */
 
     printf("s1 = %s, s3 = %s\n", s1, s3);
 
+    /* Seção 3 (equivalente ao exemplo 3 em Rust): */
     char *s4 = malloc(6);
     strcpy(s4, "hello");
     char *s5;
