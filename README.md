@@ -5,6 +5,7 @@ pesquisa aplicada sobre Rust + protótipo funcional que demonstre os seus princi
 
 ## Sumário
 
+- [Rust x C](./Rust_x_C/README.md)
 - [Rust x Linguagem com Garbage Collector (Java)](./Rust_x_Java_GC/README.md)
 - [Rust no Linux](./Rust%20no%20Linux/Rust_For_Linux.md)
 - [Análise crítica e ecossistema do Rust](./Analise_critica_e_ecossistema/Analise_critica_e_ecossistema.md)
