@@ -6,8 +6,8 @@ disciplina de Paradigmas de Programação da UFCA.
 
 Esta seção compara as duas linguagens com foco em programação de sistemas,
 gerenciamento de memória e erros que o compilador do Rust consegue impedir em
-tempo de compilação. Os exemplos serão apresentados em pares equivalentes e
-terão instruções para compilação e execução.
+tempo de compilação. Os exemplos são apresentados em pares equivalentes e têm
+instruções para compilação e execução.
 
 Os códigos foram verificados no Windows com GCC 15.2.0 e Rust 1.97.1, usando o
 toolchain `stable-x86_64-pc-windows-gnu`. As versões corretas foram compiladas e
@@ -208,17 +208,17 @@ toolchain, código legado ou restrições de plataforma são determinantes. Uma
 análise responsável considera os requisitos concretos do projeto em vez de
 afirmar que uma linguagem é universalmente superior.
 
-## Exemplos planejados
+## Estrutura dos exemplos
 
-Os exemplos práticos serão adicionados em blocos independentes:
+Os exemplos práticos estão organizados em três blocos independentes:
 
 1. referência pendurada e *use-after-free*;
 2. liberação dupla (*double free*);
 3. condição de corrida (*data race*).
 
-Cada bloco terá uma versão em C, uma tentativa equivalente em *safe Rust*, a
+Cada bloco possui uma versão em C, uma tentativa equivalente em *safe Rust*, a
 saída observada e uma versão corrigida quando necessário. Programas que falham
-de propósito serão identificados claramente.
+de propósito estão identificados claramente.
 
 ## Exemplos disponíveis
 
@@ -249,9 +249,19 @@ safe Rust, o compartilhamento mutável é rejeitado, e a versão correta combina
 
 - [Código, explicação e instruções de execução](./data-race/README.md)
 
-## Referências iniciais
+## Referências bibliográficas
 
 - [The Rust Programming Language: Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
 - [The Rust Programming Language: Fearless Concurrency](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
 - [The Rustonomicon: Meet Safe and Unsafe](https://doc.rust-lang.org/nomicon/meet-safe-and-unsafe.html)
+- [The Rustonomicon: FFI](https://doc.rust-lang.org/nomicon/ffi.html)
 - [Rust Reference: Behavior considered undefined](https://doc.rust-lang.org/reference/behavior-considered-undefined.html)
+- [Rust Standard Library: `Send`](https://doc.rust-lang.org/std/marker/trait.Send.html)
+- [Rust Standard Library: `Sync`](https://doc.rust-lang.org/std/marker/trait.Sync.html)
+- [Rust Standard Library: `Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
+- [Rust Standard Library: `Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html)
+- [ISO/IEC 9899:201x Committee Draft N1570](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf)
+- [The Open Group Base Specifications: `pthread_create`](https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_create.html)
+- [The Open Group Base Specifications: `pthread_mutex_lock`](https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_mutex_lock.html)
+- [GCC: Options to Request or Suppress Warnings](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html)
+- [GCC: Program Instrumentation Options](https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html)
