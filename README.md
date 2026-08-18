@@ -13,6 +13,12 @@ pesquisa aplicada sobre Rust + protótipo funcional que demonstre os seus princi
 - [Rust no Linux](./Rust%20no%20Linux/Rust_For_Linux.md)
 - - - 
 
+## Projeto exemplo: 🐱 Boop 
+Implementação em Rust do jogo de tabuleiro [Boop](https://pt.boardgamearena.com/gamepanel?game=boop), um jogo estratégico de dois jogadores onde gatos adoráveis competem pelo domínio do tabuleiro através do efeito "boop" (empurrão).
+- https://github.com/alan-mendes-ufca/boop-game-rust
+
+- - -
+
 ## Equipe
 
 | Nome | Usuário |
