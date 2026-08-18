@@ -8,11 +8,16 @@ e
 equivalente em C.
 
 Cada pasta é um **notebook**: um projeto Cargo independente que reúne
-diversos exemplos sobre o mesmo conceito, um por arquivo em `src/bin/`,
+cinco exemplos sobre o mesmo conceito, um por arquivo em `src/bin/`,
 cada um com sua própria `fn main()` — como células independentes de um
 notebook, cada exemplo roda sozinho, sem depender dos outros. A pasta
-também contém um único `comparacao.c`, com o equivalente em C de todos os
-cenários daquele notebook, dividido em seções comentadas.
+também contém um único `comparacao.c`, com o equivalente em C dos
+cenários daquele notebook que têm contraparte direta na linguagem,
+dividido em seções comentadas.
+
+Todo exemplo começa com um link para o [Rust
+Playground](https://play.rust-lang.org/) já com o código carregado, para
+rodar direto no navegador sem instalar nada.
 
 | Pasta (notebook) | Conceito (Rust Book) | O que compara com C |
 |---|---|---|
@@ -44,8 +49,8 @@ Por exemplo, dentro de `strings/`:
 cargo run --bin exemplo1_literal_vs_string
 ```
 
-C, dentro de cada pasta (um único arquivo cobre todos os exemplos do
-notebook, em seções comentadas):
+C, dentro de cada pasta (um único arquivo cobre os cenários do notebook
+que têm contraparte em C, em seções comentadas):
 
 ```bash
 gcc -Wall -Wextra comparacao.c -o comparacao && ./comparacao
