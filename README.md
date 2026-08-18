@@ -25,10 +25,6 @@ pesquisa aplicada sobre Rust + protótipo funcional que demonstre os seus princi
 | Matheus Nogueira | mathsNS |
 | Antonio Neto | netoo-444 |
 
-- - - 
-
-## Como executar
-
 - - -
 
 ## Referências bibliográficas
