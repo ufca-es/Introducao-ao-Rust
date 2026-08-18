@@ -6,11 +6,11 @@ pesquisa aplicada sobre Rust + protótipo funcional que demonstre os seus princi
 ## Sumário
 
 - [Contexto Histórico](./Contexto_Historico/contexto-historico.md)
+- [Funcionalidades Específicas](./Funcionalidades_Especificas/ownership/ownership.md)
+- [Análise crítica e ecossistema do Rust](./Analise_critica_e_ecossistema/Analise_critica_e_ecossistema.md)
 - [Rust x C](./Rust_x_C/README.md)
 - [Rust x Linguagem com Garbage Collector (Java)](./Rust_x_Java_GC/README.md)
 - [Rust no Linux](./Rust%20no%20Linux/Rust_For_Linux.md)
-- [Análise crítica e ecossistema do Rust](./Analise_critica_e_ecossistema/Analise_critica_e_ecossistema.md)
-
 - - - 
 
 ## Equipe
