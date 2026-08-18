@@ -110,14 +110,9 @@ reestruturar código para satisfazer o borrow checker.
 
 ## 7. Ligação com os exemplos práticos
 
-Os exemplos ficam em `exemplos/`, um por conceito, no mesmo padrão usado na
-pasta `ownership/` do repositório:
+Os exemplos desta seção ficam em `exemplos/`, um por conceito, no mesmo
+padrão usado na pasta `ownership/` do repositório:
 
-- `exemplos/dangling_reference/` — o par comparativo Rust/C de **dangling
-  reference** (item da lista de exemplos sugeridos no enunciado):
-  `dangling.rs` (rejeitado em tempo de compilação, com a mensagem de erro
-  do `rustc` documentada), `dangling_fixed.rs` (versão corrigida) e
-  `dangling.c` (compila, mas é undefined behavior).
 - `exemplos/anotacao_explicita/` — a função `maior()`, caso em que a
   elision não resolve sozinha e a anotação `'a` é obrigatória.
 - `exemplos/structs_com_referencia/` — a struct `Trecho<'a>`, mostrando
@@ -125,6 +120,14 @@ pasta `ownership/` do repositório:
 - `exemplos/lifetime_static/` — contraste entre `&'static str` (string
   literal) e uma referência comum, para deixar claro que `'static` não
   desliga a verificação do borrow checker.
+
+O exemplo canônico de **dangling reference** — o caso em que o borrow
+checker rejeita, em tempo de compilação, uma referência que sobreviveria
+ao dado original, comparado com C (onde o mesmo código compila e é
+undefined behavior) — já está documentado em
+[`Rust_x_C/dangling-reference/`](../../Rust_x_C/dangling-reference), como
+parte da comparação Rust × C. Ele é citado aqui porque ilustra
+diretamente o mecanismo de lifetimes, mas não é duplicado nesta pasta.
 
 ## Referências
 
