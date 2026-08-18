@@ -13,18 +13,20 @@
     de entrada e uma de saída.*
   * *A anotação não muda o tempo de vida de nada; ela só descreve, pro
     compilador, uma relação que já existe.*
-* `'static` é o lifetime mais longo possível (dura o programa inteiro) —
-  não é um "desliga a verificação".
+  * *`'static` é o lifetime mais longo possível (dura o programa
+    inteiro) — não é um "desliga a verificação".*
 * São regras que existem só na compilação, mas que garantem segurança de
-  memória em runtime sem depender de garbage collector.
+  memória em runtime sem depender de garbage collector — continuação
+  natural do que Ownership e Borrowing já garantem.
 
 ## Notebooks
 
-* Verifique mais exemplos em:
-  * `anotacao_explicita` — [Sem anotação, o compilador rejeita](./exemplos/anotacao_explicita/sem_anotacao.rs), [Anotação amarra o retorno ao menor lifetime de entrada](./exemplos/anotacao_explicita/com_anotacao.rs)
-  * `structs_com_referencia` — [Struct não sobrevive ao dado que referencia](./exemplos/structs_com_referencia/trecho.rs)
-  * `lifetime_static` — [`'static` é o lifetime mais longo, não desliga a verificação](./exemplos/lifetime_static/static_example.rs)
+Verifique mais exemplos em:
 
-O exemplo canônico de **dangling reference**, que ilustra diretamente
-esse mecanismo comparado com C, está em
-[`Rust_x_C/dangling-reference/`](../../Rust_x_C/dangling-reference).
+* `anotacao_explicita` — [Sem anotação, o compilador rejeita](./exemplos/anotacao_explicita/src/bin/exemplo1_sem_anotacao.rs), [Anotação amarra o retorno ao menor lifetime de entrada](./exemplos/anotacao_explicita/src/bin/exemplo2_com_anotacao.rs), [Uma entrada só: elision resolve sozinha](./exemplos/anotacao_explicita/src/bin/exemplo3_uma_entrada_elision.rs)
+* `structs_com_referencia` — [Struct válida enquanto o dado referenciado existe](./exemplos/structs_com_referencia/src/bin/exemplo1_struct_valida.rs), [Struct usada após o dado sair de escopo não compila](./exemplos/structs_com_referencia/src/bin/exemplo2_struct_invalida.rs)
+* `lifetime_static` — [String literal é `'static` de verdade](./exemplos/lifetime_static/src/bin/exemplo1_string_literal.rs), [Forçar `'static` num dado que não é permanente não compila](./exemplos/lifetime_static/src/bin/exemplo2_static_incorreto.rs)
+
+## Referências Bibliográficas
+
+Validating References with Lifetimes — The Rust Programming Language

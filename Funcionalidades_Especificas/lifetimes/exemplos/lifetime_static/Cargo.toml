@@ -1,0 +1,12 @@
+[package]
+name = "lifetime_static"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "exemplo1_string_literal"
+path = "src/bin/exemplo1_string_literal.rs"
+
+[[bin]]
+name = "exemplo2_static_incorreto"
+path = "src/bin/exemplo2_static_incorreto.rs"
