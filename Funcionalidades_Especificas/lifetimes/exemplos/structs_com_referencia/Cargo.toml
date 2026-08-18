@@ -1,0 +1,12 @@
+[package]
+name = "structs_com_referencia"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "exemplo1_struct_valida"
+path = "src/bin/exemplo1_struct_valida.rs"
+
+[[bin]]
+name = "exemplo2_struct_invalida"
+path = "src/bin/exemplo2_struct_invalida.rs"

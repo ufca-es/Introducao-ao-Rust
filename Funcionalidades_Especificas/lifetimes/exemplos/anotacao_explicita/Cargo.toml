@@ -1,0 +1,16 @@
+[package]
+name = "anotacao_explicita"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "exemplo1_sem_anotacao"
+path = "src/bin/exemplo1_sem_anotacao.rs"
+
+[[bin]]
+name = "exemplo2_com_anotacao"
+path = "src/bin/exemplo2_com_anotacao.rs"
+
+[[bin]]
+name = "exemplo3_uma_entrada_elision"
+path = "src/bin/exemplo3_uma_entrada_elision.rs"
