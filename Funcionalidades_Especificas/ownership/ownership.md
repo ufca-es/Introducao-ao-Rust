@@ -1,20 +1,15 @@
 # Entendendo Ownership
+- - - 
+
 ## Heap versus Stack
-- Processos podem ter ==dois segmentos de expansão==:
-	- *Heap*: uma área temporária para variáveis que são dinamicamente alocadas e liberadas.
-		- Dados com *tamanho desconhecido ou flexível* devem ser armazenados na heap.
-		- [[pointers]], [[file pointers]]
-		- [[Valgrind]]
-	- *Stack*: um área para variáveis locais normais e endereços de retorno.
-		- Todos os dados armazenados na stack devem ter um *tamanho conhecido e fixo*.
-		- [[stack|LIFO (Last-in First-out)]]
-		- [[Stack Overflow]]
-		- [[Call Stacks]]
+- Processos podem ter **dois segmentos de expansão**:
+	- *Heap*: uma área para variáveis que são dinamicamente *alocadas* e *liberadas*. Dados com *tamanho desconhecido ou flexível* devem ser armazenados na heap.
+	- *Stack*: um área para variáveis locais normais e endereços de retorno. Todos os dados armazenados na stack devem ter um *tamanho conhecido e fixo*.
 
 ![process-memory-organization](../../imgs/process-memory-organization.png)
 
 ### Notebooks
-- Verifique mais exemplos em:
+  - Verifique mais exemplos em:
   - `strings` — [Literal (&str) vs. String no heap](./exemplos/strings/src/bin/exemplo1_literal_vs_string.rs), [String é crescível no heap](./exemplos/strings/src/bin/exemplo2_string_e_crescivel_no_heap.rs)
   - `move` — [Tipos Copy não movem (dado stack-only)](./exemplos/move/src/bin/exemplo3_tipos_copy_nao_movem.rs)
 
@@ -23,13 +18,13 @@
 ## Escopo de uma Variável
 - refere-se ao período ao qual uma variável é válida dentro de um programa, ela permanece válida enquanto o "ponteiro de execução do programa" não sair desse escopo.
 ```rust
-fn main() {
-    {                      // s is not valid here, since it's not yet declared
-        let s = "hello";   // s is valid from this point forward
+fn main()
+{                      // s is not valid here, since it's not yet declared
+    let s = "hello";   // s is valid from this point forward
 
-        // do stuff with s
-    }                      // this scope is now over, and s is no longer valid
-}
+    // do stuff with s
+}                      // this scope is now over, and s is no longer valid
+
 ```
 
 ### Notebooks
@@ -39,12 +34,13 @@ fn main() {
 - - - 
 
 ## Ownership
+> O termo "Ownership" pode significar: a posse ou o direito de propriedade.
 - Em Rust, a memória é gerenciada por meio de um sistema de *ownership*: um *conjunto de regras* que são verificadas em **tempo de compilação**.
-- O principal objetivo devesse mecanismo é gerenciar os dados que estão armazenados na *Heap* do processo.
+- O principal objetivo desse mecanismo é gerenciar os dados que estão armazenados na *Heap* do processo.
 - **Regras de Ownership**:
-	- ==Cada valor em Rust tem um owner==.
-	- ==Só é possível ter um owner por vez==.
-	- ==Quando o owner sai do escopo, o valor é excluído==.
+	- **Cada valor em Rust tem um owner**.
+	- **Só é possível ter um owner por vez**.
+	- **Quando o owner sai do escopo, o valor é excluído**.
 - São regras relativamente simples, mas que modificam profundamente o modo ao qual utiliza-se a linguagem. Essas regras também ditam o comportamento de conceitos que vamos discutir a seguir.
 
 ### Notebooks
@@ -56,8 +52,9 @@ fn main() {
 
 - - -
 
-## Borrowing (Empréstimos)
-- O mecanismo de passar um valor para uma função é semelhante ao de atribuir um valor a uma variável, ou seja, a *posse* daquele endereço/valor é transferida. Para resolver esse problema, Rust permite o uso de *referências*. Uma referência (`&`) é um tipo de dado que aponta para um valor armazenado na *Heap* (ponteiro). Veja o exemplo abaixo:
+## Borrowing
+> O termo "borrowing" (ou "emprestimo") pode ser traduzido como "emprestar" ou "alugar".
+- O mecanismo de passar um valor para uma função é semelhante ao de atribuir um valor a uma variável, ou seja, a *posse* daquele endereço/valor é transferida. Para resolver esse problema, Rust permite o uso de *referências*. Uma referência (`&`) é um tipo de dado que aponta para um valor (ponteiro). Veja o exemplo abaixo:
 ```rust
 fn main() {
     let s1 = String::from("hello");
@@ -71,9 +68,9 @@ fn calculate_length(s: &String) -> usize {
 } // quando a referência sai do escopo, nada é descartado, porque ela não é dona do dado.
 ```
 - **Regras de Borrowing**:
-  - ==Referências imutáveis==: múltiplas partes do código podem ler o mesmo dado simultaneamente, sem problema, porque nenhuma delas pode modificá-lo. Por padrão, assim como as variáveis, as referências são imutáveis.
-  - ==Referências mutáveis==: enquanto existir uma referência mutável ativa, nenhuma outra referência (nem imutável, nem mutável) pode existir ao mesmo tempo para o mesmo dado. Para criar uma referência mutável, use a palavra-chave `mut`.
-  - ==Referências Pendentes (conceito intuitivo)==: uma referência nunca pode viver mais tempo que o dado ao qual ela aponta (não pode haver dangling references).
+  - **Referências imutáveis**: múltiplas partes do código podem ler o mesmo dado simultaneamente, sem problema, porque nenhuma delas pode modificá-lo. Por padrão, assim como as variáveis, as referências são imutáveis.
+  - **Referências mutáveis**: enquanto existir uma referência mutável ativa, nenhuma outra referência (nem imutável, nem mutável) pode existir ao mesmo tempo para o mesmo dado. Para criar uma referência mutável, use a palavra-chave `mut`.
+  - **Referências Pendentes (conceito intuitivo)**: uma referência nunca pode viver mais tempo que o dado ao qual ela aponta (não pode haver dangling references).
 
 ### Notebooks
 - Verifique mais exemplos em:
@@ -85,3 +82,4 @@ fn calculate_length(s: &String) -> usize {
 
 ## Referências Bibliográficas
 - [What is Ownership? — The Rust Programming Language](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
+- [CS50X — Memory](https://cs50.harvard.edu/x/weeks/4/)
