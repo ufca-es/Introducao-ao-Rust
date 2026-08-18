@@ -19,7 +19,7 @@ pesquisa aplicada sobre Rust + protótipo funcional que demonstre os seus princi
 | Abner Levi | abnerlevi |
 | Alan Mendes Vieira | alan-mendes-ufca |
 | Cicero Jesus | cicero-jesus |
-| Diogo Gomes | (convite pendente — fgrdiogo) |
+| Diogo Gomes | fgrdiogo |
 | Maria Antônia | mariastrajano |
 | Matheus Nogueira | mathsNS |
 | Antonio Neto | netoo-444 |
